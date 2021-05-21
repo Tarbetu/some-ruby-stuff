@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'pry'
 
 TARGET_DIR = '.saved'.freeze
 

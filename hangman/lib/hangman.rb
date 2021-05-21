@@ -1,5 +1,4 @@
 require_relative './saver_and_reloader'
-require 'pry'
 
 class Box
   attr_reader :real_value
