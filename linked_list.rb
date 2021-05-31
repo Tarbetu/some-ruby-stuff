@@ -7,8 +7,8 @@ class LinkedList
     @start_node = Node.create_head(Node.new)
   end
 
-  def append(value, mem = nil)
-    mem = @head_node if mem.nil?
+  def append(value, mem = :null)
+    mem = @start_node if mem == :null
     next_node = mem.next_node
 
     if mem.next_node.end?
@@ -21,24 +21,25 @@ class LinkedList
   end
 
   def prepend(value)
-    node_to_be_placed = Node.new(value, @head_node.next_node, 0)
-    mem = @head_node
+    node_to_be_placed = Node.new(value, @start_node.next_node, 0)
+    mem = @start_node
 
-    until mem.next_node.end?
+    until mem.next_node.nil?
       mem.next_node.index += 1
       mem = mem.next_node
     end
 
-    @head_node.next_node = node_to_be_placed
+    @start_node.next_node = node_to_be_placed
+    nil
   end
 
   def size
     count = 0
-    mem = @head_node
+    mem = @start_node
 
     until mem.end?
       mem = mem.next_node
-      count += 0
+      count += 1
     end
 
     count
@@ -49,14 +50,14 @@ class LinkedList
   end
 
   def tail
-    tail = @head_node
+    tail = @start_node
     tail = tail.next_node until tail.next_node.end?
 
     tail
   end
 
   def at(index, mem = nil)
-    mem = @head_node if mem.nil?
+    mem = @start_node if mem.nil?
     return mem if mem.index == index
 
     if mem.end?
@@ -73,7 +74,7 @@ class LinkedList
   end
 
   def contains?(value)
-    mem = @head_node
+    mem = @start_node
     until mem.end?
       return true if mem.next_node.value == value
 
@@ -84,7 +85,7 @@ class LinkedList
   end
 
   def find(value)
-    mem = @head_node
+    mem = @start_node
     until mem.end?
       return mem.next_node.index if mem.next_node.value == value
 
@@ -96,10 +97,10 @@ class LinkedList
 
   def to_s
     string = ''
-    mem = @head_node
+    mem = @start_node.next_node
 
-    until mem.nil?
-      string << "#{mem} ->"
+    until mem.end?
+      string << "#{mem} -> "
       mem = mem.next_node
     end
 
@@ -109,11 +110,13 @@ class LinkedList
   end
 
   def insert_at(value, index)
+    raise "You can't insert after the end node!" if index >= size
+
     node_going_to_be_shifted = at(index)
 
-    until node_going_to_be_shifted.nil?
-      node_going_to_be_shifted.index += 1
+    until node_going_to_be_shifted.end?
       node_going_to_be_shifted = node_going_to_be_shifted.next_node
+      node_going_to_be_shifted.index += 1
     end
 
     before_the_shifting_node = at(index - 1)
@@ -121,6 +124,8 @@ class LinkedList
   end
 
   def remove_at(index)
+    raise "You can't delete the end node!" if at(index).end?
+
     node_before_removed_node = at(index - 1)
     node_before_removed_node.next_node = at(index).next_node
 
@@ -156,7 +161,10 @@ class Node
   end
 end
 
-# For testing - I know it looks odd and cheap :)
+# For testing - I know it looks odd :)
 linked = LinkedList.new
+linked.append :rörörö
+linked.append 'yaşa fenerbahçe'
+linked.append 666
 binding.pry
 puts linked
