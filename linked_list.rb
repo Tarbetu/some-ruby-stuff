@@ -95,7 +95,7 @@ class LinkedList
     nil
   end
 
-  def to_s
+  def inspect
     string = ''
     mem = @start_node.next_node
 
@@ -147,7 +147,7 @@ class Node
     @index = index
   end
 
-  def to_s
+  def inspect
     "(#{@value})"
   end
 
@@ -167,4 +167,4 @@ linked.append :rörörö
 linked.append 'yaşa fenerbahçe'
 linked.append 666
 binding.pry
-puts linked
+p linked
