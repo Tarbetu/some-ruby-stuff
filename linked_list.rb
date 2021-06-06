@@ -7,8 +7,7 @@ class LinkedList
     @start_node = Node.create_head(Node.new)
   end
 
-  def append(value, mem = :null)
-    mem = @start_node if mem == :null
+  def append(value, mem = @start_node)
     next_node = mem.next_node
 
     if mem.next_node.end?
@@ -56,8 +55,7 @@ class LinkedList
     tail
   end
 
-  def at(index, mem = nil)
-    mem = @start_node if mem.nil?
+  def at(index, mem = @start_node)
     return mem if mem.index == index
 
     if mem.end?
