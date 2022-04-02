@@ -30,5 +30,5 @@ puts <<~HEADER
 HEADER
 
 required_tl_for_a_pc_map.each do |year, price|
-  puts "#{year} - #{price} - #{(price / minimum_wage_map[year]).round(2)}"
+  puts "#{year} - #{price.round} - #{(price / minimum_wage_map[year]).round(2)}"
 end
